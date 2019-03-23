@@ -10,8 +10,10 @@ contract Ticket {
     uint time_active;
     string name;
     uint creation_time;
+    string date;
+    string all;
     
-    function Ticket (string _name, uint256 _price, address _user, string _person_info, string _place, string _ticket_id) public {
+    function Ticket (string _name, uint256 _price, address _user, string _person_info, string _place, string _ticket_id, string _date, string _all) public {
         
         ticket_status=true;
         owner = _user;
@@ -21,6 +23,8 @@ contract Ticket {
         ticket_id = _ticket_id;
         name = _name;
         creation_time = now;
+        date = _date;
+        all=_all;
     }    
     
     function Delegate (address _user, string _person_info) public {
@@ -74,4 +78,13 @@ contract Ticket {
     function When_open() public view returns (uint) {
         return creation_time;
     }
+    
+    function Date() public view returns (string) {
+        return date;
+    }
+    
+    function Get_all() public view returns (string) {
+        return (all);
+    }
+    
 }

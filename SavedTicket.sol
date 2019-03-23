@@ -8,6 +8,7 @@ contract Ticket {
     string person_info;
     string ticket_id;
     uint time_active;
+    string name;
     
     function Ticket (string _name, uint256 _price, address _user, string _person_info, string _place, string _ticket_id) public {
         
@@ -17,7 +18,7 @@ contract Ticket {
         person_info = _person_info;
         place = _place;
         ticket_id = _ticket_id;
-        
+        name = _name;
     }    
     
     function Delegate (address _user, string _person_info) public {

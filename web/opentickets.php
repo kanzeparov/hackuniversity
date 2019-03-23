@@ -1,7 +1,7 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
 
-$url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=661584";
+$url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=669659";
 $url1 = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=666560";
 $url2 = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=662815";
 //$data = array('session' => '123', 'id' => '661584');
@@ -42,7 +42,7 @@ $mock_data2 = json_decode($result);
   <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
   <script src="opencontract.js"></script>
   <script src="product.js"></script>
-    
+  
 </head>
 
 <body class="dark-edition">
@@ -61,13 +61,13 @@ $mock_data2 = json_decode($result);
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active  ">
-            <a class="nav-link" href="javascript:void(0)">
+            <a class="nav-link" href="savetickets.php">
               <i class="material-icons">mail</i>
               <p>Мои билеты</p>
             </a>
           </li>
 		  <li class="nav-item active  ">
-            <a class="nav-link" href="opentickets.php">
+            <a class="nav-link" href="javascript:void(0)">
               <i class="material-icons">drafts</i>
               <p>Распечатанные билеты</p>
             </a>
@@ -119,84 +119,24 @@ $mock_data2 = json_decode($result);
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-          <div class="row">
+          <div class="row">			
             <div class="col-xl-4 col-lg-12">
               <div class="card card-chart">
-                <div class="card-header card-header-success">
-                  <div class="" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $event_data->message->image;?>"></div>
+                <div class="card-header card-header-danger">
+                  <div class="ct-chart" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $event_data->message->image;?>"></div>
                 </div>
                 <div class="card-body">
                   <h4 class="card-title"><?php  echo $event_data->message->title; ?></h4>
-                  <p class="card-category"><?php echo $event_data->message->venue->title; ?></p>
+                  <p class="card-category"><?php echo $event_data->message->venue->title; ?>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
                     <i class="material-icons">access_time</i><?php  echo $event_data->message->date; ?> 
                   </div>
                 </div>
-				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Вскрыть</a>
-				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>	
+				<a href="#print" class="btn btn-primary btn-round">Распечатать</a>
               </div>
-            </div>
-			<div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-success">
-                  <div class="ct-chart" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $mock_data1->message->image;?>"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title"><?php  echo $mock_data1->message->title; ?></h4>
-                  <p class="card-category"><?php echo $mock_data1->message->venue->title; ?></p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i><?php  echo $mock_data1->message->date; ?> 
-                  </div>
-                </div>
-				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Вскрыть</a>
-				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>
-              </div>
-            </div>
-			<div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-success">
-                  <div class="ct-chart" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $mock_data2->message->image;?>"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title"><?php  echo $mock_data2->message->title; ?></h4>
-                  <p class="card-category"><?php echo $mock_data2->message->venue->title; ?></p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i><?php  echo $mock_data2->message->date; ?> 
-                  </div>
-                </div>
-				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Вскрыть</a>
-				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>
-              </div>
-            </div>
-			
-			<!-- for unsave --
-            <div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-danger">
-                  <div class="ct-chart" id="completedTasksChart"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title">Completed Tasks</h4>
-                  <p class="card-category">Last Campaign Performance</p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i> campaign sent 2 days ago
-                  </div>
-                </div>
-              </div>
-            </div> -->
-					
-			
+            </div> 		
           </div>
         </div>
       </div>

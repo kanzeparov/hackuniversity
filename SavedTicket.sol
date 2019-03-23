@@ -9,6 +9,7 @@ contract Ticket {
     string ticket_id;
     uint time_active;
     string name;
+    uint creation_time;
     
     function Ticket (string _name, uint256 _price, address _user, string _person_info, string _place, string _ticket_id) public {
         
@@ -19,10 +20,11 @@ contract Ticket {
         place = _place;
         ticket_id = _ticket_id;
         name = _name;
+        creation_time = now;
     }    
     
     function Delegate (address _user, string _person_info) public {
-        require(ticket_status=true);
+        require(ticket_status==true);
         require(msg.sender==owner);
     
         owner = _user;
@@ -30,7 +32,7 @@ contract Ticket {
     }
     
     function Open () public {
-        require(ticket_status=true);
+        require(ticket_status==true);
         require(msg.sender==owner);
         
         ticket_status = false;
@@ -67,5 +69,9 @@ contract Ticket {
     
     function Name() public view returns (string) {
         return name;
+    }
+    
+    function When_open() public view returns (uint) {
+        return creation_time;
     }
 }

@@ -19,25 +19,26 @@ $db = $database->getConnection();
 
 $request_id = isset($_GET['id']) ? $_GET['id'] : die();
 
-$query = "SELECT * FROM ouchsu00_savetickets.access WHERE pin=".$request_id;
+
+$query = "SELECT eth_address, smartcontract FROM ouchsu00_savetickets.access WHERE pin=".$request_id;
+
+$result = array();
+$id = 0;
 
 foreach ($db->query($query) as $row) {
-    $json_data = array (
-        "id" => $row['id'],
-        "email" => $row['email'],
-        "password" => $row['password'],
-        "pin" => $row['pin'],
+    $result[] = array (
+        "id" => $id,
         "eth_address" => $row['eth_address'],
+        "smartcontract" => $row['smartcontract'],
 
     );
-
-
+    $id = $id + 1;
 
 }
 
 
 
-echo json_encode($json_data);
+echo json_encode($result);
 
 
 $database->closeConnection();

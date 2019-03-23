@@ -1,5 +1,25 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
+include_once 'db_conn.php';
+ 
+$_SESSION['pin'] = $_POST['pin'];
+$pin = $_POST['pin']; 
+
+$database = new Database();
+$db = $database->getConnection();
+$query = "SELECT eth_address, smartcontract FROM ouchsu00_savetickets.access WHERE pin=".$pin;
+
+/*
+foreach ($db->query($query) as $row) {
+    $result['eth_address'] = $row['eth_address'];
+	$result['smartcontract'] = $row['smartcontract;
+} */
+
+$query = "SELECT ticket_id, eth_address, smartcontract FROM ouchsu00_savetickets.access WHERE pin=".$pin;
+$tickets = array();
+    
+    
+
 
 $url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=661584";
 $url1 = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=666560";
@@ -23,12 +43,13 @@ $result = file_get_contents( $url2, false, $context );
 $mock_data2 = json_decode($result);
 
 
+
 ?>
 <!doctype html>
 <html lang="en">
 
 <head>
-  <title>SaveTicket</title>
+  <title>SaveTickets</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
@@ -40,7 +61,57 @@ $mock_data2 = json_decode($result);
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   
   <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+  <script src="assets/js/config.js"></script>
   <script src="assets/js/smartcontract.js"></script>
+  <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+  <script>
+
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            alert('Please activate MetaMask Plugin and reload page! You can find it here: https://metamask.io/')
+        }
+		
+		function addTicket() {
+          let ticketName =  "<?php  echo $event_data->message->title; ?>";
+          let ticketPrice = 1000;
+		  let ticketOwner = "0x2A2233dFF9e7f8E6090aDB5Ea6d06723E1f62BFC"; 
+		  let ticketPersonInfo = "Ivan"; 
+		  let ticketPlace = "<?php echo $event_data->message->venue->title; ?>";
+		  let ticketId = "661584";
+		  let ticketDate = "<?php  echo $event_data->message->date; ?> ";
+		  let ticketAll = "<?php  echo $event_data->message->title; echo "#"; $event_data->message->venue->title; echo "#"; echo $event_data->message->date; echo "#"; echo "661584"; ?>"
+		  let user_pin = "<?php  echo $pin; ?>";
+          deployConract(ticketName, ticketPrice, ticketOwner, ticketPersonInfo, ticketPlace, ticketId, ticketDate, ticketAll, user_pin);
+        }
+		
+		function track(){
+          let addr = "0x2c264db63f4b96e2880a1aa176c601f3d9b0e126";
+          let contract = openContract(addr);
+          getStates(contract, addr);
+        }
+		
+		function delegate_ticket() {
+			let addr = "0x71a5cd0ac4e89f1e7829de96d2ec163bfe5d2932";
+			let contract = openContract(addr);
+			delegate (contract, addr);
+		}
+
+        function open_t() {
+			let addr = "0x2c264db63f4b96e2880a1aa176c601f3d9b0e126";
+			let contract = openContract(addr);
+			open_ticket (contract, addr);
+		}
+  
+</script>
+  <!--
+  <form id="create_contract_content" action="">
+    
+        <input class = "input" id="productName" placeholder="product">
+        <input class="button" id="my_button" type="button" onclick="addProduct()" value="Add to AnchorChain"><br />
+    </form>
+  <script src="assets/js/smartcontract.js"></script>-->
     
 </head>
 
@@ -54,7 +125,7 @@ $mock_data2 = json_decode($result);
   -->
       <div class="logo">
         <a href="#" class="simple-text logo-normal">
-          Save Ticket
+          Save Tickets
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -78,7 +149,7 @@ $mock_data2 = json_decode($result);
             </a>
           </li>
 		  <li class="nav-item active  ">
-            <a class="nav-link" href="javascript:void(0)">
+            <a class="nav-link" href="authorization.php">
               <i class="material-icons">person</i>
               <p>Выход</p>
             </a>
@@ -92,7 +163,7 @@ $mock_data2 = json_decode($result);
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)">Личный кабинет</a>
+            <a class="navbar-brand" href="javascript:void(0)">Мои билеты</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -119,6 +190,31 @@ $mock_data2 = json_decode($result);
       <div class="content">
         <div class="container-fluid">
           <div class="row">
+		  
+		  <?php foreach ($db->query($query) as $row) {
+            $sm_ticket_id = $row['ticket_id'];
+			$sm_eth_addr = $row['eth_address'];
+			$sm_smartcontract = $row['smartcontract'];
+			
+			$url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=".$sm_ticket_id;
+
+//$data = array('session' => '123', 'id' => '661584');
+            $options = array(
+           'http' => array(
+    'method'  => 'GET',
+    //'content' => json_encode( $data ),
+    'header'=>  "Content-Type: application/json\r\n" .
+                "Accept: application/json\r\n"
+    )
+);
+$context  = stream_context_create( $options );
+$result = file_get_contents( $url, false, $context );
+$event_data = json_decode($result);
+			
+    
+      ?>
+   
+		  
             <div class="col-xl-4 col-lg-12">
               <div class="card card-chart">
                 <div class="card-header card-header-success">
@@ -133,12 +229,17 @@ $mock_data2 = json_decode($result);
                     <i class="material-icons">access_time</i><?php  echo $event_data->message->date; ?> 
                   </div>
                 </div>
-				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Открыть</a>
+				<!--<button onclick="addTicket();">оооо</button>
+				<button onclick="track();">llll</button>-->
+				<button id="<?php  echo $sm_smartcontract; ?>" class="btn btn-primary btn-round" onclick="delegate_ticket();">Делегировать</button>
+				<a href="#open" class="btn btn-primary btn-round">Посмотреть</a>
+				<button id="<?php  echo $sm_smartcontract; ?>" class="btn btn-primary btn-round" onclick="open_t();">Открыть</button>
 				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>	
               </div>
             </div>
-			<div class="col-xl-4 col-lg-12">
+			
+			<?php  } ?>
+			<!--<div class="col-xl-4 col-lg-12">
               <div class="card card-chart">
                 <div class="card-header card-header-success">
                   <div class="ct-chart" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $mock_data1->message->image;?>"></div>
@@ -153,6 +254,7 @@ $mock_data2 = json_decode($result);
                   </div>
                 </div>
 				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
+				<a href="#open" class="btn btn-primary btn-round">Посмотреть</a>
 				<a href="#open" class="btn btn-primary btn-round">Открыть</a>
 				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>
               </div>
@@ -172,6 +274,7 @@ $mock_data2 = json_decode($result);
                   </div>
                 </div>
 				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
+				<a href="#open" class="btn btn-primary btn-round">Посмотреть</a>
 				<a href="#open" class="btn btn-primary btn-round">Открыть</a>
 				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>
               </div>
@@ -252,7 +355,9 @@ $mock_data2 = json_decode($result);
         $sidebar_responsive = $('body > .navbar-collapse');
 
         window_width = $(window).width();
-
+         
+		addTicket(); 
+		 
         $('.fixed-plugin a').click(function(event) {
           // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
           if ($(this).hasClass('switch-trigger')) {
@@ -398,10 +503,13 @@ $mock_data2 = json_decode($result);
             clearInterval(simulateWindowResize);
           }, 1000);
 
-        });
+        });		
       });
+
     });
   </script>
+  
+
 </body>
 
 </html>

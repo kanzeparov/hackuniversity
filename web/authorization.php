@@ -149,10 +149,10 @@
       <div class="content" style="margin-left: -250px;">
         <div class="container-fluid">
 
-          <form action="savetickets.php" class="ui-form">
+          <form method="post" action="savetickets.php" class="ui-form">
             <h3>Авторизация</h3>
             <div class="form-row">
-              <input type="password" id="password" required autocomplete="off" pattern="\d{4}" required placeholder="0000"><label for="password">PIN:</label>
+              <input type="password" name="pin" id="password" required autocomplete="off" pattern="\d{4}" required placeholder="0000"><label for="password">PIN:</label>
             </div>
             <p><input type="submit" value="Войти"></p>
           </form>
@@ -164,7 +164,7 @@
           <nav class="float-left">
             <ul>
               <li>
-                <a href="https://www.creative-tim.com">
+                <a href="https://www.startblock.online">
 
                 </a>
               </li>

@@ -1,6 +1,20 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
 
+include_once 'db_conn.php';
+
+$pin = $_SESSION['pin'];
+$database = new Database();
+$db = $database->getConnection();
+$query = "SELECT eth_address, smartcontract FROM ouchsu00_savetickets.access WHERE pin=".$pin;
+
+/*
+foreach ($db->query($query) as $row) {
+    $result['eth_address'] = $row['eth_address'];
+	$result['smartcontract'] = $row['smartcontract;
+} */
+
+
 $url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=669659";
 $url1 = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=666560";
 $url2 = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=662815";
@@ -28,7 +42,7 @@ $mock_data2 = json_decode($result);
 <html lang="en">
 
 <head>
-  <title>SaveTicket</title>
+  <title>SaveTickets</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
@@ -40,7 +54,15 @@ $mock_data2 = json_decode($result);
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   
   <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
-  <script src="smartcontract.js"></script>  
+  <script>
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            alert('Please activate MetaMask Plugin and reload page! You can find it here: https://metamask.io/')
+        }
+  </script>
+  <script src="assets/js/smartcontract.js"></script>  
 </head>
 
 <body class="dark-edition">
@@ -53,7 +75,7 @@ $mock_data2 = json_decode($result);
   -->
       <div class="logo">
         <a href="#" class="simple-text logo-normal">
-          Save Ticket
+          Save Tickets
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -77,7 +99,7 @@ $mock_data2 = json_decode($result);
             </a>
           </li>
 		  <li class="nav-item active  ">
-            <a class="nav-link" href="javascript:void(0)">
+            <a class="nav-link" href="authorization.php">
               <i class="material-icons">person</i>
               <p>Выход</p>
             </a>
@@ -91,7 +113,7 @@ $mock_data2 = json_decode($result);
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)">Личный кабинет</a>
+            <a class="navbar-brand" href="javascript:void(0)">Открытые билеты</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -132,7 +154,7 @@ $mock_data2 = json_decode($result);
                     <i class="material-icons">access_time</i><?php  echo $event_data->message->date; ?> 
                   </div>
                 </div>
-				<a href="#print" class="btn btn-primary btn-round">Распечатать</a>
+				<a href="https://ponominalu.ru/ticket/show/token/fba1265b-f711-45f5-aa41-48c4f7e10363" target="_blank" class="btn btn-primary btn-round">Распечатать</a>
               </div>
             </div> 		
           </div>

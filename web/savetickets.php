@@ -40,8 +40,7 @@ $mock_data2 = json_decode($result);
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   
   <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
-  <script src="opencontract.js"></script>
-  <script src="product.js"></script>
+  <script src="assets/js/smartcontract.js"></script>
     
 </head>
 
@@ -135,7 +134,7 @@ $mock_data2 = json_decode($result);
                   </div>
                 </div>
 				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Вскрыть</a>
+				<a href="#open" class="btn btn-primary btn-round">Открыть</a>
 				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>	
               </div>
             </div>
@@ -154,7 +153,7 @@ $mock_data2 = json_decode($result);
                   </div>
                 </div>
 				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Вскрыть</a>
+				<a href="#open" class="btn btn-primary btn-round">Открыть</a>
 				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>
               </div>
             </div>
@@ -173,7 +172,7 @@ $mock_data2 = json_decode($result);
                   </div>
                 </div>
 				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Вскрыть</a>
+				<a href="#open" class="btn btn-primary btn-round">Открыть</a>
 				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>
               </div>
             </div>

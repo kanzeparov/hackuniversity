@@ -40,9 +40,7 @@ $mock_data2 = json_decode($result);
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   
   <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
-  <script src="opencontract.js"></script>
-  <script src="product.js"></script>
-  
+  <script src="smartcontract.js"></script>  
 </head>
 
 <body class="dark-edition">

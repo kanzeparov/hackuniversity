@@ -84,6 +84,14 @@ public class EventInfo extends AppCompatActivity {
         if (event[0].equals("true")) {
             imageView.setImageResource(R.drawable.open_letter);
           //button1.setEnabled(false);
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    MyDialogFragment myDialogFragment = new MyDialogFragment();
+                    myDialogFragment.show(getSupportFragmentManager(), "dialog");
+                }
+            });
             button2.setText("Найти");
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -86,22 +86,24 @@ $mock_data2 = json_decode($result);
           deployConract(ticketName, ticketPrice, ticketOwner, ticketPersonInfo, ticketPlace, ticketId, ticketDate, ticketAll, user_pin);
         }
 		
-		function track(){
-          let addr = "0x2c264db63f4b96e2880a1aa176c601f3d9b0e126";
+		function track(addr){
+          //let addr = "0x2c264db63f4b96e2880a1aa176c601f3d9b0e126";
           let contract = openContract(addr);
           getStates(contract, addr);
         }
 		
-		function delegate_ticket() {
-			let addr = "0x71a5cd0ac4e89f1e7829de96d2ec163bfe5d2932";
+		function delegate_ticket(addr) {
+			//let addr = "0x71a5cd0ac4e89f1e7829de96d2ec163bfe5d2932";
 			let contract = openContract(addr);
 			delegate (contract, addr);
+			getStates(contract, addr);
 		}
 
-        function open_t() {
-			let addr = "0x2c264db63f4b96e2880a1aa176c601f3d9b0e126";
+        function open_t(addr) {
+			//let addr = "0x2c264db63f4b96e2880a1aa176c601f3d9b0e126";
 			let contract = openContract(addr);
 			open_ticket (contract, addr);
+			getStates(contract, addr);
 		}
   
 </script>
@@ -139,7 +141,7 @@ $mock_data2 = json_decode($result);
 		  <li class="nav-item active  ">
             <a class="nav-link" href="opentickets.php">
               <i class="material-icons">drafts</i>
-              <p>Распечатанные билеты</p>
+              <p>Открытые билеты</p>
             </a>
           </li>
 		  <li class="nav-item active  ">
@@ -215,7 +217,7 @@ $event_data = json_decode($result);
       ?>
    
 		  
-            <div class="col-xl-4 col-lg-12">
+            <div  id="<?php  echo $sm_smartcontract; echo "---open"; ?>" class="col-xl-4 col-lg-12">
               <div class="card card-chart">
                 <div class="card-header card-header-success">
                   <div class="" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $event_data->message->image;?>"></div>
@@ -231,9 +233,9 @@ $event_data = json_decode($result);
                 </div>
 				<!--<button onclick="addTicket();">оооо</button>
 				<button onclick="track();">llll</button>-->
-				<button id="<?php  echo $sm_smartcontract; ?>" class="btn btn-primary btn-round" onclick="delegate_ticket();">Делегировать</button>
-				<a href="#open" class="btn btn-primary btn-round">Посмотреть</a>
-				<button id="<?php  echo $sm_smartcontract; ?>" class="btn btn-primary btn-round" onclick="open_t();">Открыть</button>
+				<button id="<?php  echo $sm_smartcontract; echo "---open"; ?>" class="btn btn-primary btn-round" onclick='delegate_ticket("<?php  echo $sm_smartcontract;?>");'>Делегировать</button>
+				<a href="ticket-hide.pdf" target="_blank" class="btn btn-primary btn-round">Посмотреть</a>
+				<button id="<?php  echo $sm_smartcontract; echo "---open"; ?>" class="btn btn-primary btn-round" onclick='open_t("<?php  echo $sm_smartcontract;?>");'>Открыть</button>
 				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>	
               </div>
             </div>

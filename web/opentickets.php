@@ -3,7 +3,7 @@ header("Access-Control-Allow-Origin: *");
 
 include_once 'db_conn.php';
 
-$pin = $_SESSION['pin'];
+$pin = "1242";
 $database = new Database();
 $db = $database->getConnection();
 $query = "SELECT eth_address, smartcontract FROM ouchsu00_savetickets.access WHERE pin=".$pin;
@@ -14,6 +14,8 @@ foreach ($db->query($query) as $row) {
 	$result['smartcontract'] = $row['smartcontract;
 } */
 
+$query = "SELECT ticket_id, eth_address, smartcontract FROM ouchsu00_savetickets.access WHERE pin=".$pin;
+$tickets = array();
 
 $url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=669659";
 $url1 = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=666560";
@@ -62,7 +64,56 @@ $mock_data2 = json_decode($result);
             alert('Please activate MetaMask Plugin and reload page! You can find it here: https://metamask.io/')
         }
   </script>
-  <script src="assets/js/smartcontract.js"></script>  
+  <script src="assets/js/smartcontract.js"></script> 
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/smartcontract.js"></script>
+  <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+  <script>
+
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            alert('Please activate MetaMask Plugin and reload page! You can find it here: https://metamask.io/')
+        }
+		
+		function addTicket() {
+          let ticketName =  "<?php  echo $event_data->message->title; ?>";
+          let ticketPrice = 1000;
+		  let ticketOwner = "0x2A2233dFF9e7f8E6090aDB5Ea6d06723E1f62BFC"; 
+		  let ticketPersonInfo = "Ivan"; 
+		  let ticketPlace = "<?php echo $event_data->message->venue->title; ?>";
+		  let ticketId = "661584";
+		  let ticketDate = "<?php  echo $event_data->message->date; ?> ";
+		  let ticketAll = "<?php  echo $event_data->message->title; echo "#"; $event_data->message->venue->title; echo "#"; echo $event_data->message->date; echo "#"; echo "661584"; ?>"
+		  let user_pin = "<?php  echo $pin; ?>";
+          deployConract(ticketName, ticketPrice, ticketOwner, ticketPersonInfo, ticketPlace, ticketId, ticketDate, ticketAll, user_pin);
+        }
+		
+		function track(addr){
+          //let addr = "0x2c264db63f4b96e2880a1aa176c601f3d9b0e126";
+          let contract = openContract(addr);
+          getStates(contract, addr);
+        }
+		
+		function delegate_ticket(addr) {
+			//let addr = "0x71a5cd0ac4e89f1e7829de96d2ec163bfe5d2932";
+			let contract = openContract(addr);
+			delegate (contract, addr);
+			getStates(contract, addr);
+		}
+
+        function open_t(addr) {
+			//let addr = "0x2c264db63f4b96e2880a1aa176c601f3d9b0e126";
+			let contract = openContract(addr);
+			open_ticket (contract, addr);
+			getStates(contract, addr);
+		}
+  
+</script>
+
+  
 </head>
 
 <body class="dark-edition">
@@ -89,7 +140,7 @@ $mock_data2 = json_decode($result);
 		  <li class="nav-item active  ">
             <a class="nav-link" href="javascript:void(0)">
               <i class="material-icons">drafts</i>
-              <p>Распечатанные билеты</p>
+              <p>Открытые билеты</p>
             </a>
           </li>
 		  <li class="nav-item active  ">
@@ -139,7 +190,58 @@ $mock_data2 = json_decode($result);
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-          <div class="row">			
+          <div class="row">	
+		  
+		  
+		  <?php foreach ($db->query($query) as $row) {
+            $sm_ticket_id = $row['ticket_id'];
+			$sm_eth_addr = $row['eth_address'];
+			$sm_smartcontract = $row['smartcontract'];
+			
+			$url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=".$sm_ticket_id;
+
+//$data = array('session' => '123', 'id' => '661584');
+            $options = array(
+           'http' => array(
+    'method'  => 'GET',
+    //'content' => json_encode( $data ),
+    'header'=>  "Content-Type: application/json\r\n" .
+                "Accept: application/json\r\n"
+    )
+);
+$context  = stream_context_create( $options );
+$result = file_get_contents( $url, false, $context );
+$event_data = json_decode($result);
+			
+    
+      ?>
+   
+		  
+            <div  id="<?php  echo $sm_smartcontract; echo "---close"; ?>" class="col-xl-4 col-lg-12">
+              <div class="card card-chart">
+                <div class="card-header card-header-success">
+                  <div class="" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $event_data->message->image;?>"></div>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title"><?php  echo $event_data->message->title; ?></h4>
+                  <p class="card-category"><?php echo $event_data->message->venue->title; ?></p>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i><?php  echo $event_data->message->date; ?> 
+                  </div>
+                </div>
+				<!--<button onclick="addTicket();">оооо</button>
+				<button onclick="track();">llll</button>-->
+				<a href="ticket-show.pdf" target="_blank" class="btn btn-primary btn-round">Распечатать</a>
+              </div>
+            </div>
+			
+			<?php  } ?>
+		  
+		  
+		  
+		  <!--
             <div class="col-xl-4 col-lg-12">
               <div class="card card-chart">
                 <div class="card-header card-header-danger">
@@ -156,7 +258,9 @@ $mock_data2 = json_decode($result);
                 </div>
 				<a href="https://ponominalu.ru/ticket/show/token/fba1265b-f711-45f5-aa41-48c4f7e10363" target="_blank" class="btn btn-primary btn-round">Распечатать</a>
               </div>
-            </div> 		
+            </div> 	-->
+
+			
           </div>
         </div>
       </div>

@@ -1,0 +1,170 @@
+var advcake_int = {
+    domain: '.ponominalu.ru',
+    url: '//hit.acstat.com/ponominalu/',
+    trackid: 'advcake_trackid',
+    partner: 'utm_campaign',
+    webmaster: 'utm_content',
+    advcake_params: "advcake_params",
+    init: function () { //Функция иницилизации, генерирует новый trackid для каждого нового utm_source. Сохраняет в куки пользователя trackid и последний url с utm_source
+        if (advcake_int.get_q('utm_source') != '') {
+            advcake_int.setCookie("advcake_last_utm", advcake_int.get_q('utm_source'), {
+                expires: 2678400, domain: advcake_int.domain, path: "/"
+            });
+            advcake_int.setCookie("advcake_url", location.href, {
+                expires: 2678400, domain: advcake_int.domain, path: "/"
+            });
+        }
+    },
+    get_uuai: function () { // Создает новый id пользователя или возвращает значение из куки
+        if (advcake_int.getCookie('user_unic_ac_id') == undefined) {
+            var user_unic_ac_id = advcake_int.guid()
+            advcake_int.setCookie("user_unic_ac_id", user_unic_ac_id, {
+                expires: 2678400, domain: advcake_int.domain, path: "/"
+            });
+        } else {
+            var user_unic_ac_id = advcake_int.getCookie('user_unic_ac_id');
+        }
+        return user_unic_ac_id;
+    },
+    guid: function () { //генерирует uuid
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    },
+    get_q: function (e) { //Функция возращающая значение из строки браузера(GET параметры)
+        var t = window.location.search;
+        return t = t.match(new RegExp(e + "=([^&=]+)")), t ? t[1] : ''
+    },
+    setCookie: function (e, t, n) { //функция создания кук
+        n = n || {};
+        var o = n.expires;
+        if ("number" == typeof o && o) {
+            var r = new Date;
+            r.setTime(r.getTime() + 1e3 * o), o = n.expires = r
+        }
+        o && o.toUTCString && (n.expires = o.toUTCString()), t = encodeURIComponent(t);
+        var i = e + "=" + t;
+        for (var a in n) {
+            i += "; " + a;
+            var c = n[a];
+            c !== !0 && (i += "=" + c)
+        }
+        document.cookie = i
+    },
+    getCookie: function (e) { // Функция получения значения из кук
+        var t = document.cookie.match(new RegExp("(?:^|; )" + e.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
+        return t ? decodeURIComponent(t[1]) : void 0
+    },
+    sendOrder: function(e, t, n) {
+            if ("advcake" == advcake_int.getCookie('utm_source')) {
+                var i = "https://server.adv-cake.ru/ponominalu/order/?id=" + e + "&price=" + t + "&trackid=" + advcake_int.getCookie("advcake_trackid") + "&url=" + encodeURIComponent(advcake_int.getCookie("advcake_url"));
+                (new Image).src = i
+            }
+        },
+    send: function () { // Отправка данных на сервера advcake
+        var user_unic_ac_id = advcake_int.get_uuai(); // id пользоватеоя
+        var referrer = document.referrer; // рефер
+        var hostname = location.href; // текущий url страницы
+        var webmaster_id_ac, campaign_ac, track_data_partner, track_id;
+
+        //Сессия дленной в 1 час
+        advcake_int.setCookie('advcake_session', '1', {
+            expires: 3600, domain: advcake_int.domain, path: "/"
+        });
+        // Запоминает в куки последние значения UTM меток или получает полсдение НАЧАЛО
+        if (advcake_int.get_q(advcake_int.webmaster) != '') {
+            advcake_int.setCookie('advcake_utm_content', advcake_int.get_q(advcake_int.webmaster), {
+                expires: 2678400, domain: advcake_int.domain, path: "/"
+            });
+            webmaster_id_ac = advcake_int.get_q(advcake_int.webmaster);
+        } else {
+            if (advcake_int.getCookie('advcake_utm_content') != undefined) {
+                webmaster_id_ac = advcake_int.getCookie("advcake_utm_content");
+            } else {
+                webmaster_id_ac = '';
+            }
+        }
+        if (advcake_int.get_q(advcake_int.partner) != '') {
+            advcake_int.setCookie('advcake_utm_campaign', advcake_int.get_q(advcake_int.partner), {
+                expires: 2678400, domain: advcake_int.domain, path: "/"
+            });
+            campaign_ac = advcake_int.get_q(advcake_int.partner);
+        } else {
+            if (advcake_int.getCookie('advcake_utm_campaign') != undefined) {
+                campaign_ac = advcake_int.getCookie("advcake_utm_campaign");
+            } else {
+                campaign_ac = '';
+            }
+        }
+        if (advcake_int.get_q('utm_source') != '') {
+            advcake_int.setCookie('advcake_utm_source', advcake_int.get_q('utm_source'), {
+                expires: 2678400, domain: advcake_int.domain, path: "/"
+            });
+        }
+        if (advcake_int.get_q('utm_source') != '') {
+            advcake_int.setCookie('advcake_utm_source1', advcake_int.get_q('utm_source'), {
+                expires: 2678400, domain: advcake_int.domain, path: "/"
+            });
+        }
+        if (advcake_int.get_q(advcake_int.advcake_params) != '') {
+            advcake_int.setCookie('advcake_params', advcake_int.get_q(advcake_int.advcake_params), {
+                expires: 2678400, domain: advcake_int.domain, path: "/"
+            });
+            track_data_partner = advcake_int.get_q(advcake_int.advcake_params);
+        } else {
+            if (advcake_int.getCookie(advcake_int.advcake_params) != undefined) {
+                track_data_partner = advcake_int.getCookie(advcake_int.advcake_params);
+            } else {
+                track_data_partner = '';
+            }
+        }
+
+        if (advcake_int.getCookie(advcake_int.trackid) != undefined) {
+            track_id = advcake_int.getCookie(advcake_int.trackid);
+        } else if (typeof advcake_data != "undefined" && typeof advcake_data.advcake_trackid != "undefined") {
+            track_id = advcake_data.advcake_trackid;
+        } else {
+            track_id = '';
+        }
+
+        // Запоминает в куки последние значения UTM меток или получает полсдение КОНЕЦ
+        var track_type_ac = advcake_int.get_q("utm_medium");                  //Канал из строки браузера
+        var track_source_ac = advcake_int.get_q('utm_source');                   //Тут должен быть advcake, если наше
+        var track_iframe_param = (window === window.top) ? 0 : 1;             //Определяет открыта ли страница в Iframe
+        var track_iframe_top_href = '';try{track_iframe_top_href = window.top.location.href;}catch(err){}
+        // Если мы не в фрейме, то URL родительского фрейма (т.е. самой страницы) нам не нужен -- экономим URL
+        if (track_iframe_param == 0) {
+            track_iframe_top_href = '';
+        }
+
+        var src = advcake_int.url
+            + '?sid=' + user_unic_ac_id // session_id
+            + '&t_tid=' + track_id // track_id
+            + '&t_dp=' + track_data_partner // track_data_partner
+            + '&wid=' + webmaster_id_ac // webmaster
+            + '&par=' + campaign_ac // partner
+            + '&ref=' + encodeURIComponent(referrer) // refer
+            + '&t_t=' + track_type_ac // track_type
+            + '&t_if=' + track_iframe_param // track_is_iframe
+            + '&t_s=' + track_source_ac // track_source
+            + '&ih=' + innerHeight // inner_height
+            + '&iw=' + innerWidth // inner_width
+            + '&if_p=' + encodeURIComponent(track_iframe_top_href) // iframe_parent_url
+            + '&s_w=' + screen.width
+            + '&s_h=' + screen.height
+            + '&land=' + encodeURIComponent(hostname); // url
+        (new Image()).src = src;        //Загружает изображение(передает данные на сервер), на сайте не отображается
+
+    }
+};
+advcake_int.init();
+
+(function () {
+    advcake_int.send();
+})();
+

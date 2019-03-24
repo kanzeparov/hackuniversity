@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:id="@+id/progress_bar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/user_image_view"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/logo"/>
+
+        <TextView
+            android:id="@+id/name_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/user_image_view"
+            android:text="Имя"/>
+
+        <TextView
+            android:id="@+id/city_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:layout_below="@id/name_event"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/user_image_view"
+            android:text="Москва"/>
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/delimeter_view"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/greyish"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+
+
+        <TextView
+            android:id="@+id/info1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:visibility="gone"
+            android:textSize="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Владелец"/>
+        <TextView
+            android:id="@+id/result_vlad"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/info1"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Имяtrhtrhrthj"/>
+
+        <TextView
+            android:id="@+id/info2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:visibility="gone"
+            android:textSize="15dp"
+            android:layout_below="@+id/info1"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Email"/>
+        <TextView
+            android:id="@+id/result_email"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/info2"
+            android:layout_below="@+id/info1"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:visibility="gone"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Имяtrhtrhrthj"/>
+
+        <TextView
+            android:id="@+id/info3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="15dp"
+            android:layout_below="@+id/info2"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="ФИО"/>
+        <TextView
+            android:id="@+id/result_fio"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/info3"
+            android:layout_below="@+id/info2"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Имяtrhtrhrthj"/>
+
+
+        <TextView
+            android:id="@+id/info4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="15dp"
+            android:layout_below="@+id/info3"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Дата покупки"/>
+        <TextView
+            android:id="@+id/result_date"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/info4"
+            android:layout_below="@+id/info3"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Имяtrhtrhrthj"/>
+
+
+        <TextView
+            android:id="@+id/info5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="15dp"
+            android:layout_below="@+id/info4"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="ID билета"/>
+        <TextView
+            android:id="@+id/result_id_ticket"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/info5"
+            android:layout_below="@+id/info4"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Имяtrhtrhrthj"/>
+
+
+        <TextView
+            android:id="@+id/info6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="15dp"
+            android:layout_below="@+id/info5"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Цена"/>
+        <TextView
+            android:id="@+id/result_price"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/info6"
+            android:layout_below="@+id/info5"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Имяtrhtrhrthj"/>
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:src="@drawable/open_letter"
+        android:id="@+id/letter_status"
+        android:layout_gravity="center"
+        android:layout_height="60dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:weightSum="3"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Открыть"
+            android:background="@drawable/btn_rounded"
+            android:id="@+id/open_btn"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="Отправить"
+            android:background="@drawable/btn_rounded"
+            android:layout_height="match_parent"
+            android:id="@+id/send_button"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="Показать"
+            android:background="@drawable/btn_rounded"
+            android:layout_height="match_parent"
+            android:id="@+id/show_btn"/>
+    </LinearLayout>
+
+
+</LinearLayout>
+</ScrollView>

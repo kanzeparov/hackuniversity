@@ -3,8 +3,10 @@
 buildscript {
     
     repositories {
-        google()
+
+        maven{ url "https://github.com/omadahealth/omada-nexus/raw/master/release" }
         jcenter()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'

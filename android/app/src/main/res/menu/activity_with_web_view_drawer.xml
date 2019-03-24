@@ -5,13 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/main_page"
+            android:id="@+id/my_ticket"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Главная страница"/>
-        <item
-            android:id="@+id/print_ticket"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Распечатанные билеты"/>
+            android:title="@string/my_ticket"/>
     </group>
 
     <item android:title="Инструменты">
